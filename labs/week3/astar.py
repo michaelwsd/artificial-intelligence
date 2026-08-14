@@ -1,3 +1,5 @@
+import heapq 
+
 graph = {
     'Arad': [('Zerind', 75), ('Sibiu', 140), ('Timisoara', 118)],
     'Zerind': [('Arad', 75), ('Oradea', 71)],
@@ -43,3 +45,46 @@ def h_function(current):
     if current == 'Vaslui': return 199
     if current == 'Zerind': return 374
     assert False, f'Current state {current} is invalid'
+
+def astar_find_path(src, dst):
+    start = (h_function(src), src)
+    heap = [start]
+    visited = set()
+    parent = {src: None}
+    costs = {src: 0}
+
+    while heap:
+        _, city = heapq.heappop(heap) 
+
+        if city == dst:
+            return reconstruct_path(parent, dst)
+
+        if city in visited:
+            continue 
+
+        visited.add(city)
+        cost = costs[city] # cost to get to this city
+
+        for nei, d in graph[city]:
+            if nei in visited:
+                continue 
+
+            newd = cost + d # update cost 
+
+            if nei not in costs or newd < costs[nei]:
+                costs[nei] = newd 
+                parent[nei] = city 
+                heapq.heappush(heap, (newd + h_function(nei), nei))
+        
+    return None
+
+def reconstruct_path(parent, dst):
+    path = [dst]
+    while parent[dst] is not None:
+        path.append(parent[dst])
+        dst = parent[dst]
+
+    return path[::-1]
+
+if __name__ == "__main__":
+    print(astar_find_path('Arad', 'Bucharest'))
