@@ -1,0 +1,217 @@
+// ~->[DNET-1]->~
+
+// File created by someone at MonashU using Netica 6.06 on Sep 04, 2026 at 03:37:13 UTC.
+
+bnet nfv3_unparameterised {
+AutoCompile = TRUE;
+autoupdate = TRUE;
+whenchanged = 1788493033;
+
+visual V2 {
+	defdispform = BELIEFBARS;
+	nodelabeling = TITLE;
+	NodeMaxNumEntries = 50;
+	nodefont = font {shape= "Arial"; size= 9;};
+	linkfont = font {shape= "Arial"; size= 9;};
+	ShowLinkStrengths = 1;
+	windowposn = (104, 104, 1103, 730);
+	resolution = 72;
+	drawingbounds = (1294, 921);
+	showpagebreaks = FALSE;
+	usegrid = TRUE;
+	gridspace = (6, 6);
+	NodeSet Node {BuiltIn = 1; Color = 0x00e1e1e1;};
+	NodeSet Nature {BuiltIn = 1; Color = 0x00f8eed2;};
+	NodeSet Deterministic {BuiltIn = 1; Color = 0x00d3caa6;};
+	NodeSet Finding {BuiltIn = 1; Color = 0x00c8c8c8;};
+	NodeSet Constant {BuiltIn = 1; Color = 0x00ffffff;};
+	NodeSet ConstantValue {BuiltIn = 1; Color = 0x00ffffb4;};
+	NodeSet Utility {BuiltIn = 1; Color = 0x00ffbdbd;};
+	NodeSet Decision {BuiltIn = 1; Color = 0x00dee8ff;};
+	NodeSet Documentation {BuiltIn = 1; Color = 0x00f0fafa;};
+	NodeSet Title {BuiltIn = 1; Color = 0x00ffffff;};
+	PrinterSetting A {
+		margins = (1270, 1270, 1270, 1270);
+		};
+	};
+
+node PesticideUse {
+	discrete = FALSE;
+	states = (High, Low);
+	levels = (5, 2, 0);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	title = "Pesticide Use";
+	whenchanged = 1788493011;
+	belief = (0.5, 0.5);
+	visual V2 {
+		center = (138, 180);
+		height = 9;
+		};
+	};
+
+node ENSO {
+	discrete = TRUE;
+	states = (El_Nino, Neutral, La_Nina);
+	levels = (-2, 0, 2);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	title = "ENSO";
+	whenchanged = 1788493011;
+	belief = (0.3333333, 0.3333333, 0.3333333);
+	visual V2 {
+		center = (738, 42);
+		height = 5;
+		};
+	};
+
+node Rainfall {
+	discrete = FALSE;
+	states = (Below_average, Average, Above_average);
+	levels = (0, 51, 201, 400);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (ENSO);
+	title = "Annual Rainfall";
+	comment = "Rainfall in mm/yr";
+	whenchanged = 1788493011;
+	belief = (0.3333333, 0.3333333, 0.3333333);
+	visual V2 {
+		center = (738, 186);
+		height = 4;
+		};
+	};
+
+node PesticideInRiver {
+	discrete = FALSE;
+	states = (High, Low);
+	levels = (10, 2, 0);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (PesticideUse, Rainfall);
+	title = "Pesticide in river";
+	whenchanged = 1788493011;
+	belief = (0.5, 0.5);
+	visual V2 {
+		center = (390, 522);
+		height = 1;
+		};
+	};
+
+node Drought {
+	discrete = TRUE;
+	states = (Yes, No);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	title = "Drought Conditions";
+	comment = "prolonged period of well-below average rainfall";
+	whenchanged = 1788493011;
+	belief = (0.5, 0.5);
+	visual V2 {
+		center = (444, 174);
+		height = 8;
+		};
+	};
+
+node Irrigation {
+	discrete = TRUE;
+	states = (Yes, No);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (Drought, Rainfall);
+	title = "Irrigation";
+	whenchanged = 1788493011;
+	belief = (0.5, 0.5);
+	visual V2 {
+		center = (444, 390);
+		height = 7;
+		};
+	};
+
+node RiverFlow {
+	discrete = FALSE;
+	states = (Good, Poor);
+	levels = (400, 100, 0);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (Drought, Rainfall, Irrigation);
+	title = "River Flow";
+	whenchanged = 1788493011;
+	belief = (0.5, 0.5);
+	visual V2 {
+		center = (600, 522);
+		height = 2;
+		};
+	};
+
+node FishAbundance {
+	discrete = FALSE;
+	states = (High, Medium, Low);
+	levels = (200, 100, 50, 0);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (PesticideInRiver, RiverFlow);
+	title = "Native Fish Abundance";
+	comment = "might need to include an \"absent\" state in here";
+	whenchanged = 1788493011;
+	belief = (0.3333333, 0.3333333, 0.3333333);
+	visual V2 {
+		center = (504, 666);
+		height = 3;
+		};
+	};
+
+node CropWater {
+	discrete = FALSE;
+	states = (Good, Poor);
+	levels = (400, 100, 0);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (Drought, Irrigation, Rainfall);
+	title = "Crop Water";
+	whenchanged = 1788493011;
+	belief = (0.5, 0.5);
+	visual V2 {
+		center = (222, 426);
+		height = 11;
+		link 3 {
+			path = ((651, 228), (296, 393));
+			};
+		};
+	};
+
+node CropYield {
+	discrete = FALSE;
+	states = (High, Low);
+	levels = (10, 2, 0);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (PesticideUse, CropWater);
+	title = "Crop Yield";
+	whenchanged = 1788493011;
+	belief = (0.5, 0.5);
+	visual V2 {
+		center = (138, 522);
+		height = 10;
+		};
+	};
+
+node TreeCond {
+	discrete = TRUE;
+	states = (Good, Damaged, Dead);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (Drought, Rainfall);
+	title = "Tree Condition";
+	whenchanged = 1788493011;
+	belief = (0.3333333, 0.3333333, 0.3333333);
+	visual V2 {
+		center = (738, 372);
+		height = 6;
+		};
+	};
+ElimOrder = (CropYield, ENSO, FishAbundance, TreeCond, PesticideUse, PesticideInRiver, Rainfall, Drought, Irrigation, RiverFlow, CropWater);
+};
