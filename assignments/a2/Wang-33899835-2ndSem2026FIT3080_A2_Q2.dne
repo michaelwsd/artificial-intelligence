@@ -1,0 +1,316 @@
+// ~->[DNET-1]->~
+
+// File created by someone at MonashU using Netica 6.09 on Sep 10, 2026 at 06:50:23 UTC.
+
+bnet Wang_33899835_2ndSem2026FIT308 {
+AutoCompile = TRUE;
+autoupdate = TRUE;
+whenchanged = 1789022815;
+
+visual V1 {
+	defdispform = BELIEFBARS;
+	nodelabeling = TITLE;
+	NodeMaxNumEntries = 50;
+	nodefont = font {shape= "Arial"; size= 9;};
+	linkfont = font {shape= "Arial"; size= 9;};
+	ShowLinkStrengths = 1;
+	windowposn = (26, 26, 1139, 567);
+	scrollposn = (6867, 2488);
+	resolution = 72;
+	drawingbounds = (16062, 6411);
+	showpagebreaks = FALSE;
+	usegrid = TRUE;
+	gridspace = (6, 6);
+	NodeSet Node {BuiltIn = 1; Color = 0x00e1e1e1;};
+	NodeSet Nature {BuiltIn = 1; Color = 0x00f8eed2;};
+	NodeSet Deterministic {BuiltIn = 1; Color = 0x00d3caa6;};
+	NodeSet Finding {BuiltIn = 1; Color = 0x00c8c8c8;};
+	NodeSet Constant {BuiltIn = 1; Color = 0x00ffffff;};
+	NodeSet ConstantValue {BuiltIn = 1; Color = 0x00ffffb4;};
+	NodeSet Utility {BuiltIn = 1; Color = 0x00ffbdbd;};
+	NodeSet Decision {BuiltIn = 1; Color = 0x00dee8ff;};
+	NodeSet Documentation {BuiltIn = 1; Color = 0x00f0fafa;};
+	NodeSet Title {BuiltIn = 1; Color = 0x00ffffff;};
+	PrinterSetting A {
+		margins = (1270, 1270, 1270, 1270);
+		};
+	};
+
+node Age {
+	discrete = FALSE;
+	states = (Under_15, Age_15_44, Age_45_64, Over_64);
+	levels = (0, 15, 45, 65, INFINITY);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	probs = 
+		// Under 15     Age 15 44    Age 45 64    Over 64      
+		  (0.1443109,   0.07916747,  0.1258025,   0.6507191);
+	numcases = 4949;
+	whenchanged = 1789022815;
+	belief = (0.1443109, 0.07916746, 0.1258025, 0.6507192);
+	visual V1 {
+		center = (7566, 2598);
+		height = 1;
+		};
+	};
+
+node Immunocompromised {
+	discrete = TRUE;
+	states = (Yes, No);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (Age);
+	probs = 
+		// Yes          No            // Age       
+		  (0.02576451,  0.9742355,    // Under 15  
+		   0.003380717, 0.9966193,    // Age 15 44 
+		   0.002649979, 0.99735,      // Age 45 64 
+		   0.07329149,  0.9267085);   // Over 64   ;
+	numcases = 
+		                 // Age       
+		  (694.1949,     // Under 15  
+		   371.8,        // Age 15 44 
+		   594.5966,     // Age 45 64 
+		   3002.409);    // Over 64   ;
+	whenchanged = 1789022739;
+	belief = (0.05201128, 0.9479887);
+	visual V1 {
+		center = (7710, 2742);
+		height = 8;
+		};
+	};
+
+node PneumococcalVaccineUpToDate {
+	discrete = TRUE;
+	states = (Yes, No);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (Age, Immunocompromised);
+	probs = 
+		// Yes          No            // Age       Immunocompromised 
+		  (0.9,         0.1,          // Under 15  Yes               
+		   0.9,         0.1,          // Under 15  No                
+		   0.4,         0.6,          // Age 15 44 Yes               
+		   0.1,         0.9,          // Age 15 44 No                
+		   0.4,         0.6,          // Age 45 64 Yes               
+		   0.1,         0.9,          // Age 45 64 No                
+		   0.8,         0.2,          // Over 64   Yes               
+		   0.4,         0.6);         // Over 64   No                ;
+	numcases = 20;
+	whenchanged = 1789018972;
+	belief = (0.4299216, 0.5700784);
+	visual V1 {
+		center = (7254, 2802);
+		height = 3;
+		};
+	};
+
+node Pneumonia {
+	discrete = TRUE;
+	states = (Bacterial, Viral, None);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (Age, Immunocompromised, PneumococcalVaccineUpToDate);
+	probs = 
+		// Bacterial    Viral        None          // Age       Immunocompromised PneumococcalVaccineUpToDate 
+		  (0.3175123,   0.4424752,   0.2400125,    // Under 15  Yes               Yes                         
+		   0.6024909,   0.1493718,   0.2481373,    // Under 15  Yes               No                          
+		   0.1623954,   0.5821474,   0.2554571,    // Under 15  No                Yes                         
+		   0.3953471,   0.3512571,   0.2533959,    // Under 15  No                No                          
+		   0.07473751,  0.6754206,   0.2498418,    // Age 15 44 Yes               Yes                         
+		   0.1492817,   0.6008402,   0.2498781,    // Age 15 44 Yes               No                          
+		   0.05079586,  0.6970618,   0.2521424,    // Age 15 44 No                Yes                         
+		   0.1388254,   0.618584,    0.2425905,    // Age 15 44 No                No                          
+		   0.07463289,  0.6752681,   0.250099,     // Age 45 64 Yes               Yes                         
+		   0.1489877,   0.6007165,   0.2502958,    // Age 45 64 Yes               No                          
+		   0.0501493,   0.6958691,   0.2539816,    // Age 45 64 No                Yes                         
+		   0.09877173,  0.6629519,   0.2382764,    // Age 45 64 No                No                          
+		   0.2834284,   0.5953865,   0.1211851,    // Over 64   Yes               Yes                         
+		   0.734813,    0.1138633,   0.1513237,    // Over 64   Yes               No                          
+		   0.2799915,   0.554468,    0.1655405,    // Over 64   No                Yes                         
+		   0.5345783,   0.2987526,   0.1666691);   // Over 64   No                No                          ;
+	numcases = 
+		                 // Age       Immunocompromised PneumococcalVaccineUpToDate 
+		  (34.59678,     // Under 15  Yes               Yes                         
+		   21.66903,     // Under 15  Yes               No                          
+		   553.7386,     // Under 15  No                Yes                         
+		   79.25138,     // Under 15  No                No                          
+		   20.41993,     // Age 15 44 Yes               Yes                         
+		   20.62051,     // Age 15 44 Yes               No                          
+		   52.21635,     // Age 15 44 No                Yes                         
+		   310.1597,     // Age 15 44 No                No                          
+		   20.54562,     // Age 45 64 Yes               Yes                         
+		   20.80647,     // Age 45 64 Yes               No                          
+		   72.4628,      // Age 45 64 No                Yes                         
+		   492.334,      // Age 45 64 No                No                          
+		   188.0523,     // Over 64   Yes               Yes                         
+		   60.71909,     // Over 64   Yes               No                          
+		   1023.535,     // Over 64   No                Yes                         
+		   1531.874);    // Over 64   No                No                          ;
+	whenchanged = 1789022815;
+	belief = (0.3282854, 0.4791726, 0.192542);
+	visual V1 {
+		center = (8034, 2790);
+		height = 2;
+		};
+	};
+
+node CRP {
+	discrete = FALSE;
+	states = (Low, Moderate, High);
+	levels = (0, 5, 40, INFINITY);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (Pneumonia, Immunocompromised, Age);
+	probs = 
+		// Low          Moderate     High          // Pneumonia Immunocompromised Age       
+		  (5.370926e-6, 0.9999841,   1.04545e-5,   // Bacterial Yes               Under 15  
+		   0.001251629, 0.998052,    6.963709e-4,  // Bacterial Yes               Age 15 44 
+		   0.03451204,  0.9528081,   0.01267989,   // Bacterial Yes               Age 45 64 
+		   1.647896e-6, 3.856671e-5, 0.9999598,    // Bacterial Yes               Over 64   
+		   0.1762889,   0.7453837,   0.07832744,   // Bacterial No                Under 15  
+		   3.973479e-5, 0.9932741,   0.006686169,  // Bacterial No                Age 15 44 
+		   0.4125527,   0.5874462,   1.118781e-6,  // Bacterial No                Age 45 64 
+		   0.1180631,   0.6719085,   0.2100284,    // Bacterial No                Over 64   
+		   6.142974e-6, 0.9999846,   9.279198e-6,  // Viral     Yes               Under 15  
+		   8.266176e-5, 0.9998425,   7.489399e-5,  // Viral     Yes               Age 15 44 
+		   2.674946e-5, 0.9999393,   3.395719e-5,  // Viral     Yes               Age 45 64 
+		   0.06734516,  0.5802283,   0.3524265,    // Viral     Yes               Over 64   
+		   0.4844365,   0.4815244,   0.03403912,   // Viral     No                Under 15  
+		   0.6841097,   0.2866933,   0.02919699,   // Viral     No                Age 15 44 
+		   0.4501684,   0.5498315,   1.25994e-7,   // Viral     No                Age 45 64 
+		   0.4223367,   0.5776615,   1.781237e-6,  // Viral     No                Over 64   
+		   1.426045e-5, 0.9999793,   6.503e-6,     // None      Yes               Under 15  
+		   0.2166222,   0.783307,    7.079e-5,     // None      Yes               Age 15 44 
+		   8.6176e-5,   0.9998793,   3.454687e-5,  // None      Yes               Age 45 64 
+		   0.8852649,   0.1147333,   1.787413e-6,  // None      Yes               Over 64   
+		   0.7381647,   0.261835,    3.230508e-7,  // None      No                Under 15  
+		   0.5611812,   0.4388179,   8.790403e-7,  // None      No                Age 15 44 
+		   0.9343527,   0.06564703,  2.665886e-7,  // None      No                Age 45 64 
+		   0.5088336,   0.4911662,   1.127165e-7); // None      No                Over 64   ;
+	numcases = 
+		                 // Pneumonia Immunocompromised Age       
+		  (4.273483,     // Bacterial Yes               Under 15  
+		   0.08805062,   // Bacterial Yes               Age 15 44 
+		   0.1356142,    // Bacterial Yes               Age 45 64 
+		   37.68335,     // Bacterial Yes               Over 64   
+		   61.10596,     // Bacterial No                Under 15  
+		   19.82033,     // Bacterial No                Age 15 44 
+		   23.71175,     // Bacterial No                Age 45 64 
+		   482.6813,     // Bacterial No                Over 64   
+		   4.753956,     // Viral     Yes               Under 15  
+		   0.5620014,    // Viral     Yes               Age 15 44 
+		   1.00085,      // Viral     Yes               Age 45 64 
+		   50.88575,     // Viral     Yes               Over 64   
+		   189.1501,     // Viral     No                Under 15  
+		   90.68764,     // Viral     No                Age 15 44 
+		   195.1462,     // Viral     No                Age 45 64 
+		   489.2693,     // Viral     No                Over 64   
+		   2.999548,     // None      Yes               Under 15  
+		   0.2531329,    // None      Yes               Age 15 44 
+		   0.4759205,    // None      Yes               Age 45 64 
+		   13.05833,     // None      Yes               Over 64   
+		   72.55401,     // None      No                Under 15  
+		   30.55196,     // None      No                Age 15 44 
+		   57.8921,      // None      No                Age 45 64 
+		   207.2601);    // None      No                Over 64   ;
+	whenchanged = 1789021694;
+	belief = (0.3753131, 0.5374349, 0.08725195);
+	visual V1 {
+		center = (7248, 3036);
+		height = 4;
+		};
+	};
+
+node ShortnessOfBreath {
+	discrete = TRUE;
+	states = (Present, Absent);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (Pneumonia, Age);
+	probs = 
+		// Present      Absent        // Pneumonia Age       
+		  (0.2548252,   0.7451748,    // Bacterial Under 15  
+		   0.1280056,   0.8719944,    // Bacterial Age 15 44 
+		   1.900266e-6, 0.9999981,    // Bacterial Age 45 64 
+		   0.3945814,   0.6054186,    // Bacterial Over 64   
+		   0.116861,    0.8831391,    // Viral     Under 15  
+		   0.06980383,  0.9301962,    // Viral     Age 15 44 
+		   0.1104985,   0.8895015,    // Viral     Age 45 64 
+		   0.2822862,   0.7177138,    // Viral     Over 64   
+		   0.09302125,  0.9069787,    // None      Under 15  
+		   2.298634e-4, 0.9997702,    // None      Age 15 44 
+		   9.388399e-6, 0.9999906,    // None      Age 45 64 
+		   2.079229e-6, 0.9999979);   // None      Over 64   ;
+	numcases = 
+		                 // Pneumonia Age       
+		  (68.62843,     // Bacterial Under 15  
+		   20.13577,     // Bacterial Age 15 44 
+		   25.12952,     // Bacterial Age 45 64 
+		   527.2287,     // Bacterial Over 64   
+		   191.4539,     // Viral     Under 15  
+		   88.7641,      // Viral     Age 15 44 
+		   180.7383,     // Viral     Age 45 64 
+		   539.2668,     // Viral     Over 64   
+		   76.58352,     // None      Under 15  
+		   27.72465,     // None      Age 15 44 
+		   55.01746,     // None      Age 45 64 
+		   216.3291);    // None      Over 64   ;
+	whenchanged = 1789021701;
+	belief = (0.2187983, 0.7812017);
+	visual V1 {
+		center = (7512, 3030);
+		height = 5;
+		};
+	};
+
+node XrayResult {
+	discrete = TRUE;
+	states = (Positive, Negative);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (Pneumonia);
+	probs = 
+		// Positive     Negative      // Pneumonia 
+		  (0.8222222,   0.1777778,    // Bacterial 
+		   0.2727273,   0.7272727,    // Viral     
+		   0.03013698,  0.969863);    // None      ;
+	numcases = 
+		                 // Pneumonia 
+		  (90,           // Bacterial 
+		   99,           // Viral     
+		   73);          // None      ;
+	whenchanged = 1789022815;
+	belief = (0.4064096, 0.5935904);
+	visual V1 {
+		center = (7758, 3030);
+		height = 6;
+		};
+	};
+
+node BloodCultureTest {
+	discrete = TRUE;
+	states = (Positive, Negative, Inconclusive);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = (Pneumonia);
+	probs = 
+		// Positive     Negative     Inconclusive  // Pneumonia 
+		  (0.8444445,   0.07777778,  0.07777778,   // Bacterial 
+		   0.1212121,   0.8080808,   0.07070707,   // Viral     
+		   0.1369863,   0.7945206,   0.06849315);  // None      ;
+	numcases = 
+		                 // Pneumonia 
+		  (90,           // Bacterial 
+		   99,           // Viral     
+		   73);          // None      ;
+	whenchanged = 1789022815;
+	belief = (0.3616759, 0.565722, 0.072602);
+	visual V1 {
+		center = (8028, 3030);
+		height = 7;
+		};
+	};
+ElimOrder = (XrayResult, BloodCultureTest, ShortnessOfBreath, PneumococcalVaccineUpToDate, Age, Immunocompromised, Pneumonia, CRP);
+};

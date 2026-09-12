@@ -1,0 +1,137 @@
+// ~->[DNET-1]->~
+
+// File created by someone at MonashU using Netica 6.09 on Sep 09, 2026 at 02:39:54 UTC.
+
+bnet Wang_33899835_2ndSem2026FIT308 {
+autoupdate = TRUE;
+whenchanged = 1788921292;
+
+visual V1 {
+	defdispform = BELIEFBARS;
+	nodelabeling = TITLE;
+	NodeMaxNumEntries = 50;
+	nodefont = font {shape= "Arial"; size= 9;};
+	linkfont = font {shape= "Arial"; size= 9;};
+	ShowLinkStrengths = 1;
+	windowposn = (26, 26, 1139, 567);
+	resolution = 72;
+	drawingbounds = (1899, 758);
+	showpagebreaks = FALSE;
+	usegrid = TRUE;
+	gridspace = (6, 6);
+	NodeSet Node {BuiltIn = 1; Color = 0x00e1e1e1;};
+	NodeSet Nature {BuiltIn = 1; Color = 0x00f8eed2;};
+	NodeSet Deterministic {BuiltIn = 1; Color = 0x00d3caa6;};
+	NodeSet Finding {BuiltIn = 1; Color = 0x00c8c8c8;};
+	NodeSet Constant {BuiltIn = 1; Color = 0x00ffffff;};
+	NodeSet ConstantValue {BuiltIn = 1; Color = 0x00ffffb4;};
+	NodeSet Utility {BuiltIn = 1; Color = 0x00ffbdbd;};
+	NodeSet Decision {BuiltIn = 1; Color = 0x00dee8ff;};
+	NodeSet Documentation {BuiltIn = 1; Color = 0x00f0fafa;};
+	NodeSet Title {BuiltIn = 1; Color = 0x00ffffff;};
+	PrinterSetting A {
+		margins = (1270, 1270, 1270, 1270);
+		};
+	};
+
+node Age {
+	discrete = FALSE;
+	states = (Under_15, Age_15_44, Age_45_64, Over_64);
+	levels = (0, 15, 45, 65, INFINITY);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	whenchanged = 1788920195;
+	visual V1 {
+		center = (684, 228);
+		height = 6;
+		};
+	};
+
+node Immunocompromised {
+	discrete = TRUE;
+	states = (Yes, No);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	whenchanged = 1788920278;
+	visual V1 {
+		center = (984, 234);
+		height = 7;
+		};
+	};
+
+node PneumococcalVaccineUpToDate {
+	discrete = TRUE;
+	states = (Yes, No);
+	kind = NATURE;
+	chance = CHANCE;
+	parents = ();
+	whenchanged = 1788920342;
+	visual V1 {
+		center = (1014, 312);
+		height = 8;
+		};
+	};
+
+node Pneumonia {
+	discrete = TRUE;
+	states = (Bacterial, Viral, None);
+	kind = NATURE;
+	parents = (Age, Immunocompromised, PneumococcalVaccineUpToDate);
+	whenchanged = 1788921292;
+	visual V1 {
+		center = (684, 366);
+		height = 1;
+		};
+	};
+
+node ShortnessOfBreath {
+	discrete = TRUE;
+	states = (Present, Absent);
+	kind = NATURE;
+	parents = (Pneumonia);
+	whenchanged = 1788920875;
+	visual V1 {
+		center = (654, 546);
+		height = 2;
+		};
+	};
+
+node CRP {
+	discrete = FALSE;
+	states = (Low, Moderate, High);
+	levels = (0, 5, 40, INFINITY);
+	kind = NATURE;
+	parents = (Pneumonia);
+	whenchanged = 1788920878;
+	visual V1 {
+		center = (468, 546);
+		height = 3;
+		};
+	};
+
+node XrayResult {
+	discrete = TRUE;
+	states = (Positive, Negative);
+	kind = NATURE;
+	parents = (Pneumonia);
+	whenchanged = 1788920907;
+	visual V1 {
+		center = (846, 546);
+		height = 4;
+		};
+	};
+
+node BloodCultureTest {
+	discrete = TRUE;
+	states = (Positive, Negative, Inconclusive);
+	kind = NATURE;
+	parents = (Pneumonia);
+	whenchanged = 1788920997;
+	visual V1 {
+		center = (906, 414);
+		height = 5;
+		};
+	};
+};
