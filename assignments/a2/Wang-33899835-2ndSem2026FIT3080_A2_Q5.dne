@@ -1,10 +1,11 @@
 // ~->[DNET-1]->~
 
-// File created by someone at MonashU using Netica 6.09 on Sep 12, 2026 at 05:02:19 UTC.
+// File created by someone at MonashU using Netica 6.09 on Sep 15, 2026 at 09:24:48 UTC.
 
 bnet Wang_33899835_2ndSem2026FIT308 {
+AutoCompile = TRUE;
 autoupdate = TRUE;
-whenchanged = 1789189300;
+whenchanged = 1789464286;
 
 visual V1 {
 	defdispform = BELIEFBARS;
@@ -38,7 +39,7 @@ visual V1 {
 node Age {
 	discrete = FALSE;
 	states = (Under_15, Age_15_44, Age_45_64, Over_64);
-	levels = (0, 15, 45, 65, INFINITY);
+	levels = (0, 15, 45, 65, 100);
 	kind = NATURE;
 	chance = CHANCE;
 	parents = ();
@@ -46,7 +47,9 @@ node Age {
 		// Under 15     Age 15 44    Age 45 64    Over 64      
 		  (0.1443109,   0.07916747,  0.1258025,   0.6507191);
 	numcases = 4949;
-	whenchanged = 1789022815;
+	EqnDirty = TRUE;
+	whenchanged = 1789464269;
+	belief = (0.1443109, 0.07916746, 0.1258025, 0.6507191);
 	visual V1 {
 		center = (7716, 2634);
 		height = 1;
@@ -71,7 +74,9 @@ node Immunocompromised {
 		   371.8,        // Age 15 44 
 		   594.5966,     // Age 45 64 
 		   3002.409);    // Over 64   ;
+	EqnDirty = TRUE;
 	whenchanged = 1789022739;
+	belief = (0.05201128, 0.9479887);
 	visual V1 {
 		center = (7860, 2778);
 		height = 8;
@@ -95,7 +100,9 @@ node PneumococcalVaccineUpToDate {
 		   0.8,         0.2,          // Over 64   Yes               
 		   0.4,         0.6);         // Over 64   No                ;
 	numcases = 20;
+	EqnDirty = TRUE;
 	whenchanged = 1789018972;
+	belief = (0.4299216, 0.5700784);
 	visual V1 {
 		center = (7404, 2838);
 		height = 3;
@@ -144,7 +151,9 @@ node Pneumonia {
 		   60.71909,     // Over 64   Yes               No                          
 		   1023.535,     // Over 64   No                Yes                         
 		   1531.874);    // Over 64   No                No                          ;
+	EqnDirty = TRUE;
 	whenchanged = 1789022815;
+	belief = (0.3282854, 0.4791725, 0.192542);
 	visual V1 {
 		center = (8184, 2826);
 		height = 2;
@@ -154,7 +163,7 @@ node Pneumonia {
 node CRP {
 	discrete = FALSE;
 	states = (Low, Moderate, High);
-	levels = (0, 5, 40, INFINITY);
+	levels = (0, 5, 40, 121);
 	kind = NATURE;
 	chance = CHANCE;
 	parents = (Pneumonia, Immunocompromised, Age);
@@ -210,7 +219,9 @@ node CRP {
 		   30.55196,     // None      No                Age 15 44 
 		   57.8921,      // None      No                Age 45 64 
 		   207.2601);    // None      No                Over 64   ;
-	whenchanged = 1789021694;
+	EqnDirty = TRUE;
+	whenchanged = 1789464281;
+	belief = (0.3753131, 0.5374349, 0.08725195);
 	visual V1 {
 		center = (7398, 3072);
 		height = 4;
@@ -251,7 +262,9 @@ node ShortnessOfBreath {
 		   27.72465,     // None      Age 15 44 
 		   55.01746,     // None      Age 45 64 
 		   216.3291);    // None      Over 64   ;
+	EqnDirty = TRUE;
 	whenchanged = 1789021701;
+	belief = (0.2187983, 0.7812017);
 	visual V1 {
 		center = (7662, 3066);
 		height = 5;
@@ -264,6 +277,9 @@ node DoXray {
 	kind = DECISION;
 	chance = DETERMIN;
 	parents = ();
+	functable = 
+		
+		  (Yes);
 	whenchanged = 1789188556;
 	visual V1 {
 		center = (8262, 3216);
@@ -294,6 +310,7 @@ node XrayResult {
 		   74,           // None      Yes    
 		   74);          // None      No     ;
 	whenchanged = 1789188978;
+	belief = (0.2031911, 0.5, 0.296809);
 	visual V1 {
 		center = (7908, 3066);
 		height = 6;
@@ -320,6 +337,7 @@ node BloodCultureTest {
 		   99,           // Viral     
 		   73);          // None      ;
 	whenchanged = 1789187877;
+	belief = (0.3616759, 0.5657221, 0.072602);
 	visual V1 {
 		center = (8178, 3066);
 		height = 7;
@@ -330,8 +348,17 @@ node TreatAntibiotics {
 	discrete = TRUE;
 	states = (Yes, No);
 	kind = DECISION;
-	parents = (XrayResult, DoXray);
-	whenchanged = 1789189218;
+	chance = DETERMIN;
+	parents = (DoXray, XrayResult);
+	functable = 
+		                    // DoXray XrayResult 
+		  (Yes,             // Yes    Positive   
+		   Yes,             // Yes    NoResult   
+		   Yes,             // Yes    Negative   
+		   Yes,             // No     Positive   
+		   Yes,             // No     NoResult   
+		   Yes);            // No     Negative   ;
+	whenchanged = 1789464286;
 	visual V1 {
 		center = (7890, 3222);
 		height = 11;
@@ -376,4 +403,5 @@ node U_Antibiotics {
 		height = 13;
 		};
 	};
+ElimOrder = (BloodCultureTest, ShortnessOfBreath, PneumococcalVaccineUpToDate, Age, Immunocompromised, CRP, Pneumonia, TreatAntibiotics, XrayResult, DoXray);
 };

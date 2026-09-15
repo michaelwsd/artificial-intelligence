@@ -1,11 +1,11 @@
 // ~->[DNET-1]->~
 
-// File created by someone at MonashU using Netica 6.09 on Sep 10, 2026 at 06:50:23 UTC.
+// File created by someone at MonashU using Netica 6.09 on Sep 15, 2026 at 09:23:28 UTC.
 
 bnet Wang_33899835_2ndSem2026FIT308 {
 AutoCompile = TRUE;
 autoupdate = TRUE;
-whenchanged = 1789022815;
+whenchanged = 1789464204;
 
 visual V1 {
 	defdispform = BELIEFBARS;
@@ -39,7 +39,7 @@ visual V1 {
 node Age {
 	discrete = FALSE;
 	states = (Under_15, Age_15_44, Age_45_64, Over_64);
-	levels = (0, 15, 45, 65, INFINITY);
+	levels = (0, 15, 45, 65, 100);
 	kind = NATURE;
 	chance = CHANCE;
 	parents = ();
@@ -47,7 +47,8 @@ node Age {
 		// Under 15     Age 15 44    Age 45 64    Over 64      
 		  (0.1443109,   0.07916747,  0.1258025,   0.6507191);
 	numcases = 4949;
-	whenchanged = 1789022815;
+	EqnDirty = TRUE;
+	whenchanged = 1789464195;
 	belief = (0.1443109, 0.07916746, 0.1258025, 0.6507192);
 	visual V1 {
 		center = (7566, 2598);
@@ -73,8 +74,9 @@ node Immunocompromised {
 		   371.8,        // Age 15 44 
 		   594.5966,     // Age 45 64 
 		   3002.409);    // Over 64   ;
+	EqnDirty = TRUE;
 	whenchanged = 1789022739;
-	belief = (0.05201128, 0.9479887);
+	belief = (0.05201129, 0.9479887);
 	visual V1 {
 		center = (7710, 2742);
 		height = 8;
@@ -98,6 +100,7 @@ node PneumococcalVaccineUpToDate {
 		   0.8,         0.2,          // Over 64   Yes               
 		   0.4,         0.6);         // Over 64   No                ;
 	numcases = 20;
+	EqnDirty = TRUE;
 	whenchanged = 1789018972;
 	belief = (0.4299216, 0.5700784);
 	visual V1 {
@@ -148,6 +151,7 @@ node Pneumonia {
 		   60.71909,     // Over 64   Yes               No                          
 		   1023.535,     // Over 64   No                Yes                         
 		   1531.874);    // Over 64   No                No                          ;
+	EqnDirty = TRUE;
 	whenchanged = 1789022815;
 	belief = (0.3282854, 0.4791726, 0.192542);
 	visual V1 {
@@ -159,7 +163,7 @@ node Pneumonia {
 node CRP {
 	discrete = FALSE;
 	states = (Low, Moderate, High);
-	levels = (0, 5, 40, INFINITY);
+	levels = (0, 5, 40, 121);
 	kind = NATURE;
 	chance = CHANCE;
 	parents = (Pneumonia, Immunocompromised, Age);
@@ -215,8 +219,9 @@ node CRP {
 		   30.55196,     // None      No                Age 15 44 
 		   57.8921,      // None      No                Age 45 64 
 		   207.2601);    // None      No                Over 64   ;
-	whenchanged = 1789021694;
-	belief = (0.3753131, 0.5374349, 0.08725195);
+	EqnDirty = TRUE;
+	whenchanged = 1789464204;
+	belief = (0.3753132, 0.5374349, 0.08725195);
 	visual V1 {
 		center = (7248, 3036);
 		height = 4;
@@ -257,6 +262,7 @@ node ShortnessOfBreath {
 		   27.72465,     // None      Age 15 44 
 		   55.01746,     // None      Age 45 64 
 		   216.3291);    // None      Over 64   ;
+	EqnDirty = TRUE;
 	whenchanged = 1789021701;
 	belief = (0.2187983, 0.7812017);
 	visual V1 {
@@ -306,7 +312,7 @@ node BloodCultureTest {
 		   99,           // Viral     
 		   73);          // None      ;
 	whenchanged = 1789022815;
-	belief = (0.3616759, 0.565722, 0.072602);
+	belief = (0.3616759, 0.5657221, 0.072602);
 	visual V1 {
 		center = (8028, 3030);
 		height = 7;

@@ -1,10 +1,11 @@
 // ~->[DNET-1]->~
 
-// File created by someone at MonashU using Netica 6.09 on Sep 09, 2026 at 02:39:54 UTC.
+// File created by someone at MonashU using Netica 6.09 on Sep 15, 2026 at 09:23:01 UTC.
 
 bnet Wang_33899835_2ndSem2026FIT308 {
+AutoCompile = TRUE;
 autoupdate = TRUE;
-whenchanged = 1788921292;
+whenchanged = 1789464179;
 
 visual V1 {
 	defdispform = BELIEFBARS;
@@ -37,13 +38,16 @@ visual V1 {
 node Age {
 	discrete = FALSE;
 	states = (Under_15, Age_15_44, Age_45_64, Over_64);
-	levels = (0, 15, 45, 65, INFINITY);
+	levels = (0, 15, 45, 65, 100);
 	kind = NATURE;
 	chance = CHANCE;
 	parents = ();
-	whenchanged = 1788920195;
+	ExperBase = 1;
+	EqnDirty = TRUE;
+	whenchanged = 1789464148;
+	belief = (0.25, 0.25, 0.25, 0.25);
 	visual V1 {
-		center = (684, 228);
+		center = (804, 198);
 		height = 6;
 		};
 	};
@@ -52,11 +56,11 @@ node Immunocompromised {
 	discrete = TRUE;
 	states = (Yes, No);
 	kind = NATURE;
-	chance = CHANCE;
 	parents = ();
 	whenchanged = 1788920278;
+	belief = (0.5, 0.5);
 	visual V1 {
-		center = (984, 234);
+		center = (1104, 204);
 		height = 7;
 		};
 	};
@@ -65,11 +69,11 @@ node PneumococcalVaccineUpToDate {
 	discrete = TRUE;
 	states = (Yes, No);
 	kind = NATURE;
-	chance = CHANCE;
 	parents = ();
 	whenchanged = 1788920342;
+	belief = (0.5, 0.5);
 	visual V1 {
-		center = (1014, 312);
+		center = (1134, 282);
 		height = 8;
 		};
 	};
@@ -79,9 +83,11 @@ node Pneumonia {
 	states = (Bacterial, Viral, None);
 	kind = NATURE;
 	parents = (Age, Immunocompromised, PneumococcalVaccineUpToDate);
+	EqnDirty = TRUE;
 	whenchanged = 1788921292;
+	belief = (0.3333333, 0.3333333, 0.3333333);
 	visual V1 {
-		center = (684, 366);
+		center = (804, 336);
 		height = 1;
 		};
 	};
@@ -92,8 +98,9 @@ node ShortnessOfBreath {
 	kind = NATURE;
 	parents = (Pneumonia);
 	whenchanged = 1788920875;
+	belief = (0.5, 0.5);
 	visual V1 {
-		center = (654, 546);
+		center = (774, 516);
 		height = 2;
 		};
 	};
@@ -101,13 +108,18 @@ node ShortnessOfBreath {
 node CRP {
 	discrete = FALSE;
 	states = (Low, Moderate, High);
-	levels = (0, 5, 40, INFINITY);
+	levels = (0, 5, 40, 121);
 	kind = NATURE;
 	parents = (Pneumonia);
-	whenchanged = 1788920878;
+	EqnDirty = TRUE;
+	whenchanged = 1789464179;
+	belief = (0.3333333, 0.3333333, 0.3333333);
 	visual V1 {
-		center = (468, 546);
+		center = (588, 516);
 		height = 3;
+		link 1 {
+			path = ((765, 370), (640, 473));
+			};
 		};
 	};
 
@@ -117,8 +129,9 @@ node XrayResult {
 	kind = NATURE;
 	parents = (Pneumonia);
 	whenchanged = 1788920907;
+	belief = (0.5, 0.5);
 	visual V1 {
-		center = (846, 546);
+		center = (966, 516);
 		height = 4;
 		};
 	};
@@ -129,9 +142,11 @@ node BloodCultureTest {
 	kind = NATURE;
 	parents = (Pneumonia);
 	whenchanged = 1788920997;
+	belief = (0.3333333, 0.3333333, 0.3333333);
 	visual V1 {
-		center = (906, 414);
+		center = (1026, 384);
 		height = 5;
 		};
 	};
+ElimOrder = (ShortnessOfBreath, XrayResult, CRP, BloodCultureTest, Age, Immunocompromised, PneumococcalVaccineUpToDate, Pneumonia);
 };
