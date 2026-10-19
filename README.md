@@ -24,12 +24,14 @@ learning. The programming assignments are built on the
 
 ```
 FIT3080/
-├── lectures/              Lecture slides, lec1.pdf - lec12.pdf
+├── lectures/              Lecture slides, lec1.pdf - lec13.pdf
 ├── labs/
-│   ├── questions/         Applied class sheets, lab1.pdf - lab11.pdf
+│   ├── questions/         Applied class sheets, lab1.pdf - lab12.pdf
 │   │   └── lab7_bn_dataset/   Netica network and CSV data for Lab 7
 │   └── solutions/         Published solutions (labN_sol.pdf) and my own lab work
-├── practice-questions/    Revision questions, one PDF per topic area
+├── exam-practices/
+│   ├── practice-questions/            Revision questions, one PDF per topic area
+│   └── practice-question-solutions/   Published solutions and my own working
 └── assignments/
     ├── a1/                Pacman search and adversarial agents (Python)
     ├── a2/                Bayesian networks in Netica (report + .dne models)
@@ -54,13 +56,14 @@ FIT3080/
 | 10 | Reinforcement learning - TD learning, Q-learning, exploration | - | `lec10.pdf` | Lab 9 |
 | 11 | Introduction to machine learning | 19.1-19.4.1, 19.6, 19.7.1 | `lec11.pdf` | Lab 10 |
 | 12 | Machine learning II - artificial neural networks | 19.6.1-19.6.4, 22.1-22.3 | `lec12.pdf` | Lab 11 |
+| 13 | Machine learning III - logistic regression, naive Bayes, k-NN, K-means clustering | 12.6, 21.2.1-21.2.2, 19.7.4, 19.8.1-19.8.4 | `lec13.pdf` | Lab 12 |
 
 ---
 
 ## Labs
 
 Lab *N*'s sheet is `labs/questions/labN.pdf` and its published solution is
-`labs/solutions/labN_sol.pdf`. Lab 11 has no published solution yet.
+`labs/solutions/labN_sol.pdf`.
 
 `labs/questions/` also holds the starter data for Lab 7 in `lab7_bn_dataset/`: an
 unparameterised Netica network (`nfv3_unparameterised.dne`) plus complete, missing-value and
@@ -84,15 +87,23 @@ python labs/solutions/lab4_minimax.py
 
 ## Practice questions
 
-Revision questions in `practice-questions/`, one file per topic area:
+Revision questions live in `exam-practices/practice-questions/`, one file per topic area,
+with the matching published solutions in `exam-practices/practice-question-solutions/`:
 
-| File | Covers |
-| --- | --- |
-| `PracticeQuestionsFIT3080-Agents-Search.pdf` | Intelligent agents and search (topics 2-5) |
-| `PracticeQuestionsFIT3080-KR.pdf` | Knowledge representation and logic (topic 6) |
-| `PracticeQuestionsFIT3080-BNs.pdf` | Bayesian networks (topics 7-8) |
-| `PracticeQuestionsFIT3080-MDPRL.pdf` | MDPs and reinforcement learning (topics 9-10) |
-| `PracticeQuestionsFIT3080-ML.pdf` | Machine learning (topics 11-12) |
+| Topic area | Covers | Questions | Solutions |
+| --- | --- | --- | --- |
+| Agents and search | Topics 2-5 | `PracticeQuestionsFIT3080-Agents-Search.pdf` | `PracticeQuestionsFIT3080-Agents-Search-solution.pdf` |
+| Knowledge representation | Topic 6 | `PracticeQuestionsFIT3080-KR.pdf` | `PracticeQuestionsFIT3080-KR-solution.pdf` |
+| Bayesian networks | Topics 7-8 | `PracticeQuestionsFIT3080-BNs.pdf` | `PracticeQuestionsFIT3080-BNs-solution.pdf` |
+| MDPs and reinforcement learning | Topics 9-10 | `PracticeQuestionsFIT3080-MDPRL.pdf` | `PracticeQuestionsFIT3080-MDPRL-solutions.pdf` |
+| Machine learning | Topics 11-13 | `PracticeQuestionsFIT3080-ML.pdf` | `PracticeQuestionsFIT3080-ML-solution.pdf` |
+
+`practice-question-solutions/mdp-Q3.py` runs 10 rounds of value iteration on the three-state
+MDP from MDP/RL Q3 (discount 0.5) and prints the values and greedy policy after each round:
+
+```bash
+python exam-practices/practice-question-solutions/mdp-Q3.py
+```
 
 ---
 
